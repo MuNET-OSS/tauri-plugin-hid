@@ -15,8 +15,9 @@ pub struct Hid<R: Runtime>(AppHandle<R>);
 
 impl<R: Runtime> Hid<R> {
   pub fn ping(&self, payload: PingRequest) -> crate::Result<PingResponse> {
-    Ok(PingResponse {
-      value: payload.value,
-    })
+    let response = PingResponse {
+      value: Some("Pong".to_string()),
+    };
+    Ok(response)
   }
 }

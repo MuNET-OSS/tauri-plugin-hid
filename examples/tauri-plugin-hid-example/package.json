@@ -1,5 +1,5 @@
 {
-  "name": "plugin-hid-example",
+  "name": "tauri-plugin-hid-example",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
-    "tauri-plugin-hid-api": "file:../.."
+    "@redfernelec/tauri-plugin-hid-api": "file:../.."
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

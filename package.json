@@ -1,5 +1,5 @@
 {
-  "name": "tauri-plugin-hid-api",
+  "name": "@redfernelec/tauri-plugin-hid-api",
   "version": "0.1.0",
   "author": "You",
   "description": "",
