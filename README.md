@@ -12,9 +12,9 @@ Currently uses hidapi-rusb as it is able to compile hidapi on Android as part of
 
 **Limitations:**
 
-*   No error handling implemented yet.
+*   No error handling implemented yet
 *   Only connects to one device at a time (i.e. plugin manages single current device)
-*   API will change in future versions.
+*   API will change in future versions
 *   Does not enumerate devices on Android yet
 *   Only tested on macOS
 
