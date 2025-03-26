@@ -295,14 +295,54 @@
       "type": "string",
       "oneOf": [
         {
-          "description": "Enables the ping command without any pre-configured scope.",
+          "description": "Enables the close command without any pre-configured scope.",
           "type": "string",
-          "const": "allow-ping"
+          "const": "allow-close"
         },
         {
-          "description": "Denies the ping command without any pre-configured scope.",
+          "description": "Denies the close command without any pre-configured scope.",
           "type": "string",
-          "const": "deny-ping"
+          "const": "deny-close"
+        },
+        {
+          "description": "Enables the device_list command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-device-list"
+        },
+        {
+          "description": "Denies the device_list command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-device-list"
+        },
+        {
+          "description": "Enables the open command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-open"
+        },
+        {
+          "description": "Denies the open command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-open"
+        },
+        {
+          "description": "Enables the read command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-read"
+        },
+        {
+          "description": "Denies the read command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-read"
+        },
+        {
+          "description": "Enables the write command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-write"
+        },
+        {
+          "description": "Denies the write command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-write"
         },
         {
           "description": "Default permissions for the plugin",

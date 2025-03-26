@@ -35,7 +35,12 @@ impl<R: Runtime, T: Manager<R>> crate::HidExt<R> for T {
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("hid")
-    .invoke_handler(tauri::generate_handler![commands::ping])
+    .invoke_handler(tauri::generate_handler![
+      commands::device_list,
+      commands::open,
+      commands::close,
+      commands::write,
+      commands::read,])
     .setup(|app, api| {
       #[cfg(mobile)]
       let hid = mobile::init(app, api)?;
