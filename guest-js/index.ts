@@ -1,9 +1,13 @@
 import { invoke } from '@tauri-apps/api/core'
 
 export type DeviceInfo = {
+  path: string;
   vendorId: number;
   productId: number;
   serialNumber: string;
+  releaseNumber: number;
+  manufacturerString: string;
+  productString: string;
 };
 
 export async function ping(value: string): Promise<string | null> {
