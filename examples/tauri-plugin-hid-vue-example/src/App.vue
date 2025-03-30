@@ -1,14 +1,28 @@
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
+<script setup lang="ts">
+import { ref } from "vue";
+import HidDeviceInfo from "./components/HidDeviceInfo.vue";
+import { DeviceInfo, deviceList } from "@redfernelec/tauri-plugin-hid-api";
 
-.logo.typescript:hover {
-  filter: drop-shadow(0 0 2em #2d79c7);
+const devices = ref<DeviceInfo[]>([]);
+
+async function test() {
+  devices.value = await deviceList();
 }
+</script>
+
+<template>
+  <main class="container">
+    <button v-on:click="test">Get devices
+      <text v-if="devices.length !== 0"> (Found {{ devices.length }} devices)</text>
+    </button>
+    <HidDeviceInfo v-for="device in devices" :device="device" />
+  </main>
+</template>
+
+<style>
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 24px;
   font-weight: 400;
 
   color: #0f0f0f;
@@ -23,22 +37,11 @@
 
 .container {
   margin: 0;
-  padding-top: 10vh;
+  /* padding-top: 10vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
 }
 
 .row {
@@ -81,18 +84,10 @@ button {
 button:hover {
   border-color: #396cd8;
 }
+
 button:active {
   border-color: #396cd8;
   background-color: #e8e8e8;
-}
-
-input,
-button {
-  outline: none;
-}
-
-#greet-input {
-  margin-right: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -110,7 +105,9 @@ button {
     color: #ffffff;
     background-color: #0f0f0f98;
   }
+
   button:active {
     background-color: #0f0f0f69;
   }
 }
+</style> -->

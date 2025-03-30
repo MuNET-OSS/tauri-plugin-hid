@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "tauri-plugin-hid-example",
+  "productName": "tauri-plugin-hid-vue-example",
   "version": "0.1.0",
-  "identifier": "uk.redfern.tauri-plugin-hid-example",
+  "identifier": "uk.redfern.tauri-plugin-hid-vue-example-app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -10,10 +10,9 @@
     "frontendDist": "../dist"
   },
   "app": {
-    "withGlobalTauri": true,
     "windows": [
       {
-        "title": "tauri-plugin-hid-example",
+        "title": "tauri-plugin-hid-vue-example",
         "width": 800,
         "height": 600
       }

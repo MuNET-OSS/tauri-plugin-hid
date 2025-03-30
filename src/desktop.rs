@@ -40,7 +40,6 @@ impl<R: Runtime> Hid<R> {
           },
           None => {
             Some("".to_string())
-            // None
           }
         },
         product_string: match device.product_string() {
@@ -49,9 +48,17 @@ impl<R: Runtime> Hid<R> {
           },
           None => {
             Some("".to_string())
-            // None
           }
         },
+        serial_number: match device.serial_number() {
+          Some(serial_number) => {
+            Some(serial_number.to_owned())
+          },
+          None => {
+            Some("".to_string())
+          }
+        },
+        release_number: device.release_number(),
       };
       devices.push(device_info);
     };
