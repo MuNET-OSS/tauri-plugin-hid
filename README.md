@@ -21,7 +21,40 @@ Currently uses hidapi-rusb as it is able to compile hidapi on Android as part of
 
 ## Installation
 
-TODO
+Install the plugin with cargo:
+```sh
+cd src-tauri
+cargo add tauri-plugin-hid
+```
+
+Alternatively add the dependency directly to Cargo.toml:
+```toml
+[dependencies]
+tauri-plugin-hid = "0.1.1"
+```
+
+Install the ts/js api:
+```sh
+npm add @redfernelec/tauri-plugin-hid-api
+```
+
+Add the plugin to ```src-tauri/src/lib.rs```, for example:
+```rust
+tauri::Builder::default()
+    .plugin(tauri_plugin_opener::init())
+    .plugin(tauri_plugin_hid::init())   // Register hid plugin
+    .run(tauri::generate_context!())
+    .expect("error while running tauri application");
+```
+
+Add permisions to ```src-tauri/capabilities/default.json```:
+```json
+"permissions": [
+    "core:default",
+    "opener:default",
+    "hid:default"
+]
+```
 
 ## Example usage in Frontend
 
@@ -29,7 +62,7 @@ An example Vue app is included in examples/tauri-plugin-hid-vue-example
 ```ts
 import { HidDevice, enumerate } from "@redfernelec/tauri-plugin-hid-api";
 
-let myDevice: HidDevice;
+let myDevice: HidDevice | null = null;
 
 // Enumerate devices and find one based on product string
 let devices = await enumerate();

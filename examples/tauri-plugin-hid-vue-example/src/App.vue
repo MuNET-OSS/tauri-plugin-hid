@@ -6,57 +6,7 @@ import { HidDevice, enumerate } from "@redfernelec/tauri-plugin-hid-api";
 const devices = ref<HidDevice[]>([]);
 
 async function test() {
-  let logger: HidDevice | null = null;
   devices.value = await enumerate();
-  
-  let test_devs = await enumerate();
-  console.log("Found devices:", test_devs);
-  for (const device of test_devs) {
-    if (device.productString === "Rocket Logger") {
-      logger = device;
-      break;
-    }
-  }
-
-  if(logger) {
-    console.log("Found logger device:", logger);
-  }
-  // if(logger) {
-  //   console.log("Found logger device:", logger);
-  //   await logger.open();
-    
-  //   console.log("Logger device opened", logger);
-  //   await logger.write(new Uint8Array([0x00, 0x00]));
-  //   let data = await logger.read(2);
-  //   console.log("Logger device data:", data);
-
-  //   console.log("Logger device opened", logger);
-  //   await logger.write(new Uint8Array([0x00, 0x00]));
-  //   data = await logger.read(2);
-  //   console.log("Logger device data:", data);
-    
-  //   await logger.close();
-  //   console.log("Logger device closed");
-  // } else {
-  //   console.log("Logger device not found");
-  // }
-
-  let logger2: HidDevice = new HidDevice();
-  logger2.vendorId = 0x04D1;
-  logger2.productId = 0xE5A3;
-  try {
-    await logger2.open();
-    console.log("Logger2 device opened", logger2);
-
-    await logger2.write(new Uint8Array([0x00, 0x00]));
-    let data2 = await logger2.read(2);
-    console.log("Logger2 device data:", data2);
-
-    await logger2.close();
-    console.log("Logger2 device closed");
-  } catch (e) {
-    console.error("Error opening logger2 device:", e);
-  }
 }
 </script>
 
@@ -160,4 +110,4 @@ button:active {
     background-color: #0f0f0f69;
   }
 }
-</style> -->
+</style>
