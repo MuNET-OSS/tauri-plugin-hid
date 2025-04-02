@@ -1,21 +1,51 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import HidDeviceInfo from "./components/HidDeviceInfo.vue";
+import HidDeviceConnected from "./components/HidDeviceConnected.vue";
 import { HidDevice, enumerate } from "@redfernelec/tauri-plugin-hid-api";
 
+let choosingDevice = ref(false);
 const devices = ref<HidDevice[]>([]);
+const connectedDevices = ref<HidDevice[]>([]);
 
-async function test() {
+async function chooseDevice() {
   devices.value = await enumerate();
+  choosingDevice.value = true;
+}
+
+async function connect(device: HidDevice) {
+  await device.open();
+  if (device.id) {  // TODO: impletment a way to check if the device is already connected and use instead
+    connectedDevices.value.push(device);
+  }
+  choosingDevice.value = false;
+}
+
+async function disconnect(device: HidDevice) {
+  const index = connectedDevices.value.indexOf(device);
+  if (index > -1) {
+    connectedDevices.value.splice(index, 1);
+  }
+  await device.close();
+}
+
+async function back() {
+  choosingDevice.value = false;
 }
 </script>
 
 <template>
   <main class="container">
-    <button v-on:click="test">Get devices
-      <text v-if="devices.length !== 0"> (Found {{ devices.length }} devices)</text>
-    </button>
-    <HidDeviceInfo v-for="device in devices" :device="device" />
+    <div v-if="!choosingDevice">
+      <button v-on:click="chooseDevice"> Connect to a HID device </button>
+      <HidDeviceConnected v-for="device in connectedDevices" :device="device" @disconnect="disconnect(device)"></HidDeviceConnected>
+    </div>
+    <div v-else>
+      <button v-on:click="back"> Back </button>
+      <p v-if="devices.length !== 0"> Found {{ devices.length }} devices </p>
+      <p v-else> No devices found </p>
+      <HidDeviceInfo v-for="device in devices" :device="device" @click="connect(device)"/>
+    </div>
   </main>
 </template>
 
