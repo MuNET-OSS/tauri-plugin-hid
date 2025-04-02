@@ -59,7 +59,7 @@ Add permisions to ```src-tauri/capabilities/default.json```:
 ## Example usage in Frontend
 
 An example Vue app is included in examples/tauri-plugin-hid-vue-example
-```ts
+```typescript
 import { HidDevice, enumerate } from "@redfernelec/tauri-plugin-hid-api";
 
 let myDevice: HidDevice | null = null;

@@ -2,7 +2,7 @@
   "name": "@redfernelec/tauri-plugin-hid-api",
   "version": "0.1.1",
   "author": "Joseph Birks",
-  "description": "Frontend bindings for HID plugin for Tauri",
+  "description": "Frontend bindings for Tauri HID plugin",
   "license": "MIT",
   "type": "module",
   "types": "./dist-js/index.d.ts",
