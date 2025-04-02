@@ -2,7 +2,7 @@
 
 Default permissions for the plugin
 
-- `allow-device-list`
+- `allow-enumerate`
 - `allow-open`
 - `allow-close`
 - `allow-write`
@@ -46,12 +46,12 @@ Denies the close command without any pre-configured scope.
 <tr>
 <td>
 
-`hid:allow-device-list`
+`hid:allow-enumerate`
 
 </td>
 <td>
 
-Enables the device_list command without any pre-configured scope.
+Enables the enumerate command without any pre-configured scope.
 
 </td>
 </tr>
@@ -59,12 +59,12 @@ Enables the device_list command without any pre-configured scope.
 <tr>
 <td>
 
-`hid:deny-device-list`
+`hid:deny-enumerate`
 
 </td>
 <td>
 
-Denies the device_list command without any pre-configured scope.
+Denies the enumerate command without any pre-configured scope.
 
 </td>
 </tr>

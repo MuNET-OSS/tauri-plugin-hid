@@ -36,7 +36,7 @@ impl<R: Runtime, T: Manager<R>> crate::HidExt<R> for T {
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("hid")
     .invoke_handler(tauri::generate_handler![
-      commands::device_list,
+      commands::enumerate,
       commands::open,
       commands::close,
       commands::write,

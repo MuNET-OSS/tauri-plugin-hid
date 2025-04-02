@@ -1,13 +1,14 @@
 use tauri::{AppHandle, command, Runtime};
+use uuid::Uuid;
 
 use crate::Result;
 use crate::HidExt;
 
 #[command]
-pub(crate) async fn device_list<R: Runtime>(
+pub(crate) async fn enumerate<R: Runtime>(
     app: AppHandle<R>,
-) -> Result<Vec<crate::DeviceInfo>> {
-    app.hid().device_list()
+) -> Result<Vec<crate::HidDeviceInfo>> {
+    app.hid().enumerate()
 }
 
 #[command]
@@ -15,29 +16,48 @@ pub(crate) async fn open<R: Runtime>(
     app: AppHandle<R>,
     vendor_id: u16,
     product_id: u16,
-) -> Result<()> {
-    app.hid().open(vendor_id, product_id)
+) -> Result<String> {
+    Ok(app.hid().open(vendor_id, product_id)?.to_string())
 }
 
 #[command]
 pub(crate) async fn close<R: Runtime>(
     app: AppHandle<R>,
+    id: String,
 ) -> Result<()> {
-    app.hid().close()
+    // Convert the string to a UUID
+    let id = match Uuid::parse_str(&id) {
+        Ok(id) => id,
+        Err(_) => return Err(crate::Error::DeviceUuidInvalidFormat),
+    };
+    // Call the close method
+    app.hid().close(id)
 }
 
 #[command]
 pub(crate) async fn write<R: Runtime>(
     app: AppHandle<R>,
+    id: String,
     data: Vec<u8>,
 ) -> Result<()> {
-    app.hid().write(data.as_slice())
+    // Convert the string to a UUID
+    let id = match Uuid::parse_str(&id) {
+        Ok(id) => id,
+        Err(_) => return Err(crate::Error::DeviceUuidInvalidFormat),
+    };
+    app.hid().write(id, data.as_slice())
 }
 
 #[command]
 pub(crate) async fn read<R: Runtime>(
     app: AppHandle<R>,
+    id: String,
     size: usize,
 ) -> Result<Vec<u8>> {
-    app.hid().read(size)
+    // Convert the string to a UUID
+    let id = match Uuid::parse_str(&id) {
+        Ok(id) => id,
+        Err(_) => return Err(crate::Error::DeviceUuidInvalidFormat),
+    };
+    app.hid().read(id, size)
 }

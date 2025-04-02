@@ -1,4 +1,4 @@
-const COMMANDS: &[&str] = &["device_list", "open", "close", "write", "read"];
+const COMMANDS: &[&str] = &["enumerate", "open", "close", "write", "read"];
 
 fn main() {
   tauri_plugin::Builder::new(COMMANDS)

@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/core'
 
-export type DeviceInfo = {
-  path: string;
+type HidDeviceInfo = {
+  path: string ;
   vendorId: number;
   productId: number;
   serialNumber: string;
@@ -10,37 +10,52 @@ export type DeviceInfo = {
   productString: string;
 };
 
-export async function ping(value: string): Promise<string | null> {
-  return await invoke<{value?: string}>('plugin:hid|ping', {
-    payload: {
-      value,
-    },
-  }).then((r) => (r.value ? r.value : null));
+export async function enumerate(): Promise<HidDevice[]> {
+  const infoList = await invoke('plugin:hid|enumerate', {});
+  const devices: HidDevice[] = [];
+  for (const info of infoList as HidDeviceInfo[]) {
+    const device = new HidDevice();
+    Object.assign(device, info);
+    devices.push(device);
+  }
+  return devices;
 }
 
-export async function deviceList(): Promise<DeviceInfo[]> {
-  return await invoke('plugin:hid|device_list');
-}
+export class HidDevice {
+  id: string = '';  // UUID used to match device to the connected device in rust
+  path: string = '';
+  vendorId: number = 0;
+  productId: number = 0;
+  serialNumber: string = '';
+  releaseNumber: number = 0;
+  manufacturerString: string = '';
+  productString: string = '';
 
-export async function open(vendorId: number, productId: number): Promise<void> {
-  return await invoke('plugin:hid|open', {
-      vendorId,
-      productId,
-  });
-}
+  // TODO: consider using path first then vid/pid
+  async open(): Promise<void> {
+    this.id = await invoke('plugin:hid|open', {
+      vendorId: this.vendorId,
+      productId: this.productId,
+    });
+  }
 
-export async function close(): Promise<void> {
-  return await invoke('plugin:hid|close');
-}
+  async close(): Promise<void> {
+    return await invoke('plugin:hid|close', {
+      id: this.id,
+    });
+  }
 
-export async function read(size: number): Promise<string> {
-  return await invoke('plugin:hid|read', {
-    size,
-  });
-}
+  async read(length: number): Promise<ArrayBuffer> {
+    return await invoke('plugin:hid|read', {
+      id: this.id,
+      size: length,
+    });
+  }
 
-export async function write(data: number[]): Promise<void> {
-  return await invoke('plugin:hid|write', {
-    data,
-  });
-}
+  async write(data: ArrayBuffer): Promise<void> {
+    return await invoke('plugin:hid|write', {
+      id: this.id,
+      data,
+    });
+  }
+};
