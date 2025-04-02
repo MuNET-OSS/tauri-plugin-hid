@@ -45,6 +45,7 @@ export class HidDevice {
     });
   }
 
+  // TODO: add timeout
   async read(length: number): Promise<ArrayBuffer> {
     return await invoke('plugin:hid|read', {
       id: this.id,
