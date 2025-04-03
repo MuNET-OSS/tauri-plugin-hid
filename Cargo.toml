@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-hid"
-version = "0.1.3"
+version = "0.1.4"
 authors = [ "Joseph Birks" ]
 description = "A Tauri plugin to provide access to USB HID devices"
 license = "MIT"

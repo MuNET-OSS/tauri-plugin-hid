@@ -105,7 +105,7 @@ impl<R: Runtime> Hid<R> {
     Ok(())
   }
 
-  pub fn read(&self, id: Uuid, size: usize, timeout: i32) -> crate::Result<Vec<u8>> {
+  pub fn read(&self, id: Uuid, timeout: i32) -> crate::Result<Vec<u8>> {
     // Get a lock on the open_devices mutex to ensure thread safety.
     // This will panic if the mutex is poisoned, which should not happen in normal operation.
     let open_devices = self.open_devices.lock().unwrap();
@@ -115,7 +115,7 @@ impl<R: Runtime> Hid<R> {
       Some(device) => device,
       None => return Err(crate::Error::HidDeviceUuidNotFound),
     };
-    let mut buffer = vec![0; size];
+    let mut buffer = vec![0; 64];
     // Read data from the device into the buffer.
     // The read method will block until data is available or an error occurs.
     // TODO: Consider closing the device if read fails (to avoid stale device in list).

@@ -31,7 +31,7 @@ async function read() {
   const device = props.device;
 
   try {
-    let data = await device.read(64, 100);
+    let data = await device.read(100);
     read_string.value = new Uint8Array(data).join(", ");
   } catch {
     read_string.value = 'Read timeout';
@@ -49,7 +49,7 @@ async function read() {
     <hr>
     <input type="text" placeholder="E.g. 0,2,4,128,55" v-model="write_string" /><button @click="write">Write</button>
     <hr>
-    <div><button @click="read">Read (64 Bytes)</button>
+    <div><button @click="read">Read</button>
     <p> {{read_string}} </p></div>
     <hr>
     <button @click="$emit('disconnect', device)">Disconnect</button>

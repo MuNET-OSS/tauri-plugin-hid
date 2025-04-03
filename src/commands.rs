@@ -52,7 +52,6 @@ pub(crate) async fn write<R: Runtime>(
 pub(crate) async fn read<R: Runtime>(
     app: AppHandle<R>,
     id: String,
-    size: usize,
     timeout: i32
 ) -> Result<Vec<u8>> {
     // Convert the string to a UUID
@@ -60,5 +59,5 @@ pub(crate) async fn read<R: Runtime>(
         Ok(id) => id,
         Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
     };
-    app.hid().read(id, size, timeout)
+    app.hid().read(id, timeout)
 }
