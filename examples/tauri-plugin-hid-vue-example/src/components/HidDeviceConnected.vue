@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { HidDevice } from "@redfernelec/tauri-plugin-hid-api";
+import { RefSymbol } from "@vue/reactivity";
 import { ref } from "vue";
 
 const props = defineProps<{
@@ -28,8 +29,14 @@ async function write() {
 
 async function read() {
   const device = props.device;
-  const data = await device.read(64);
-  read_string.value = new Uint8Array(data).join(", ");
+
+  try {
+    let data = await device.read(64, 100);
+    read_string.value = new Uint8Array(data).join(", ");
+  } catch {
+    read_string.value = 'Read timeout';
+  }
+
 }
 
 </script>
@@ -58,6 +65,11 @@ async function read() {
     border-color: #ccc;
     button {
       margin-left: 10px;
+    }
+    hr {
+      background-color: #ccc;
+      border-width: 0;
+      height: 1px;
     }
   }
 

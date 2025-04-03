@@ -7,6 +7,8 @@ use tauri::{plugin::PluginApi, AppHandle, Runtime};
 use hidapi_rusb::HidApi;
 use uuid::Uuid;
 
+use crate::error::Error;
+
 pub fn init<R: Runtime, C: DeserializeOwned>(
   app: &AppHandle<R>,
   _api: PluginApi<R, C>,
@@ -95,7 +97,7 @@ impl<R: Runtime> Hid<R> {
     // If the device is not found, return an error.
     let device = match open_devices.get(&id) {
       Some(device) => device,
-      None => return Err(crate::Error::DeviceUuidNotFound),
+      None => return Err(crate::Error::HidDeviceUuidNotFound),
     };
     // Write data to the device.
     // TODO: Consider closing the device if write fails (to avoid stale device in list).
@@ -103,7 +105,7 @@ impl<R: Runtime> Hid<R> {
     Ok(())
   }
 
-  pub fn read(&self, id: Uuid, size: usize) -> crate::Result<Vec<u8>> {
+  pub fn read(&self, id: Uuid, size: usize, timeout: i32) -> crate::Result<Vec<u8>> {
     // Get a lock on the open_devices mutex to ensure thread safety.
     // This will panic if the mutex is poisoned, which should not happen in normal operation.
     let open_devices = self.open_devices.lock().unwrap();
@@ -111,13 +113,18 @@ impl<R: Runtime> Hid<R> {
     // If the device is not found, return an error.
     let device = match open_devices.get(&id) {
       Some(device) => device,
-      None => return Err(crate::Error::DeviceUuidNotFound),
+      None => return Err(crate::Error::HidDeviceUuidNotFound),
     };
     let mut buffer = vec![0; size];
     // Read data from the device into the buffer.
     // The read method will block until data is available or an error occurs.
     // TODO: Consider closing the device if read fails (to avoid stale device in list).
-    device.read(&mut buffer)?;
-    Ok(buffer)
+    let len = device.read_timeout(&mut buffer, timeout)?;
+    buffer.truncate(len);
+    if len == 0 && timeout > 0 {
+      Err(Error::HidReadTimeout)
+    } else {
+      Ok(buffer)
+    }
   }
 }

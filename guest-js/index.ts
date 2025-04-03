@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/core'
 
 type HidDeviceInfo = {
-  path: string ;
+  path: string;
   vendorId: number;
   productId: number;
   serialNumber: string;
@@ -45,11 +45,11 @@ export class HidDevice {
     });
   }
 
-  // TODO: add timeout
-  async read(length: number): Promise<ArrayBuffer> {
+  async read(length: number, timeout: number = 0): Promise<ArrayBuffer> {
     return await invoke('plugin:hid|read', {
       id: this.id,
       size: length,
+      timeout: timeout
     });
   }
 

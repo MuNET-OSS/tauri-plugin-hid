@@ -8,11 +8,13 @@ pub enum Error {
   #[error("HidApi Error: {0}")]
   HidApiError(#[from] hidapi_rusb::HidError),
   #[error("Device not found")]
-  DeviceNotFound,
+  HidDeviceNotFound,
   #[error("Device uuid no longer exists")]
-  DeviceUuidNotFound,
+  HidDeviceUuidNotFound,
   #[error("Invalid uuid format")]
-  DeviceUuidInvalidFormat,
+  HidDeviceUuidInvalidFormat,
+  #[error("HID read timed out")]
+  HidReadTimeout,
   #[cfg(mobile)]
   #[error(transparent)]
   PluginInvoke(#[from] tauri::plugin::mobile::PluginInvokeError),

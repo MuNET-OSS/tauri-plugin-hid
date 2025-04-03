@@ -28,7 +28,7 @@ pub(crate) async fn close<R: Runtime>(
     // Convert the string to a UUID
     let id = match Uuid::parse_str(&id) {
         Ok(id) => id,
-        Err(_) => return Err(crate::Error::DeviceUuidInvalidFormat),
+        Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
     };
     // Call the close method
     app.hid().close(id)
@@ -43,7 +43,7 @@ pub(crate) async fn write<R: Runtime>(
     // Convert the string to a UUID
     let id = match Uuid::parse_str(&id) {
         Ok(id) => id,
-        Err(_) => return Err(crate::Error::DeviceUuidInvalidFormat),
+        Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
     };
     app.hid().write(id, data.as_slice())
 }
@@ -53,11 +53,12 @@ pub(crate) async fn read<R: Runtime>(
     app: AppHandle<R>,
     id: String,
     size: usize,
+    timeout: i32
 ) -> Result<Vec<u8>> {
     // Convert the string to a UUID
     let id = match Uuid::parse_str(&id) {
         Ok(id) => id,
-        Err(_) => return Err(crate::Error::DeviceUuidInvalidFormat),
+        Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
     };
-    app.hid().read(id, size)
+    app.hid().read(id, size, timeout)
 }
