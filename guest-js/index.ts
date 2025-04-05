@@ -1,5 +1,7 @@
 import { invoke } from '@tauri-apps/api/core'
 
+// TODO: Add documentation
+
 type HidDeviceInfo = {
   path: string;
   vendorId: number;

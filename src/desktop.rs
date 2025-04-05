@@ -74,7 +74,7 @@ impl<R: Runtime> Hid<R> {
     // Add the new device to the open_devices HashMap with the UUID as the key.
     open_devices.insert(id, new_device);
     // TODO:  Update properties like manufacturer_string, product_string, serial_number, etc. in the frontend.
-    //        Maybe we need to pass back a while DeviceInfo structure and include uuid there?
+    //        Maybe we need to pass back a whole DeviceInfo structure and include uuid there?
     // Return the UUID so it can be used to reference the device from frontend.
     Ok(id)
   }
