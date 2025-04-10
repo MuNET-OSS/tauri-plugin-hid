@@ -297,57 +297,68 @@
         {
           "description": "Enables the close command without any pre-configured scope.",
           "type": "string",
-          "const": "allow-close"
+          "const": "allow-close",
+          "markdownDescription": "Enables the close command without any pre-configured scope."
         },
         {
           "description": "Denies the close command without any pre-configured scope.",
           "type": "string",
-          "const": "deny-close"
+          "const": "deny-close",
+          "markdownDescription": "Denies the close command without any pre-configured scope."
         },
         {
           "description": "Enables the enumerate command without any pre-configured scope.",
           "type": "string",
-          "const": "allow-enumerate"
+          "const": "allow-enumerate",
+          "markdownDescription": "Enables the enumerate command without any pre-configured scope."
         },
         {
           "description": "Denies the enumerate command without any pre-configured scope.",
           "type": "string",
-          "const": "deny-enumerate"
+          "const": "deny-enumerate",
+          "markdownDescription": "Denies the enumerate command without any pre-configured scope."
         },
         {
           "description": "Enables the open command without any pre-configured scope.",
           "type": "string",
-          "const": "allow-open"
+          "const": "allow-open",
+          "markdownDescription": "Enables the open command without any pre-configured scope."
         },
         {
           "description": "Denies the open command without any pre-configured scope.",
           "type": "string",
-          "const": "deny-open"
+          "const": "deny-open",
+          "markdownDescription": "Denies the open command without any pre-configured scope."
         },
         {
           "description": "Enables the read command without any pre-configured scope.",
           "type": "string",
-          "const": "allow-read"
+          "const": "allow-read",
+          "markdownDescription": "Enables the read command without any pre-configured scope."
         },
         {
           "description": "Denies the read command without any pre-configured scope.",
           "type": "string",
-          "const": "deny-read"
+          "const": "deny-read",
+          "markdownDescription": "Denies the read command without any pre-configured scope."
         },
         {
           "description": "Enables the write command without any pre-configured scope.",
           "type": "string",
-          "const": "allow-write"
+          "const": "allow-write",
+          "markdownDescription": "Enables the write command without any pre-configured scope."
         },
         {
           "description": "Denies the write command without any pre-configured scope.",
           "type": "string",
-          "const": "deny-write"
+          "const": "deny-write",
+          "markdownDescription": "Denies the write command without any pre-configured scope."
         },
         {
-          "description": "Default permissions for the plugin",
+          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-enumerate`\n- `allow-open`\n- `allow-close`\n- `allow-write`\n- `allow-read`",
           "type": "string",
-          "const": "default"
+          "const": "default",
+          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-enumerate`\n- `allow-open`\n- `allow-close`\n- `allow-write`\n- `allow-read`"
         }
       ]
     }
