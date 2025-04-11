@@ -6,11 +6,13 @@ pub enum Error {
   #[error(transparent)]
   Io(#[from] std::io::Error),
   #[error("HidApi Error: {0}")]
-  HidApiError(#[from] hidapi_rusb::HidError),
+  HidApiError(#[from] hidapi::HidError),
   #[error("Device not found")]
   HidDeviceNotFound,
-  #[error("Device uuid no longer exists")]
-  HidDeviceUuidNotFound,
+  #[error("Device already open")]
+  HidDeviceAlreadyOpen,
+  #[error("Device no longer exists in open devices")]
+  HidDeviceNotFoundInOpenDevices,
   #[error("Invalid uuid format")]
   HidDeviceUuidInvalidFormat,
   #[error("HID read timed out")]

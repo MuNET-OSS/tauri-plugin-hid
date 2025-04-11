@@ -1,5 +1,4 @@
 use tauri::{AppHandle, command, Runtime};
-use uuid::Uuid;
 
 use crate::Result;
 use crate::HidExt;
@@ -14,50 +13,34 @@ pub(crate) async fn enumerate<R: Runtime>(
 #[command]
 pub(crate) async fn open<R: Runtime>(
     app: AppHandle<R>,
-    vendor_id: u16,
-    product_id: u16,
-) -> Result<String> {
-    Ok(app.hid().open(vendor_id, product_id)?.to_string())
+    path: &str,
+) -> Result<()> {
+    app.hid().open(path)
 }
 
 #[command]
 pub(crate) async fn close<R: Runtime>(
     app: AppHandle<R>,
-    id: String,
+    path: &str,
 ) -> Result<()> {
-    // Convert the string to a UUID
-    let id = match Uuid::parse_str(&id) {
-        Ok(id) => id,
-        Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
-    };
     // Call the close method
-    app.hid().close(id)
+    app.hid().close(path)
 }
 
 #[command]
 pub(crate) async fn write<R: Runtime>(
     app: AppHandle<R>,
-    id: String,
+    path: &str,
     data: Vec<u8>,
 ) -> Result<()> {
-    // Convert the string to a UUID
-    let id = match Uuid::parse_str(&id) {
-        Ok(id) => id,
-        Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
-    };
-    app.hid().write(id, data.as_slice())
+    app.hid().write(path, data.as_slice())
 }
 
 #[command]
 pub(crate) async fn read<R: Runtime>(
     app: AppHandle<R>,
-    id: String,
+    path: &str,
     timeout: i32
 ) -> Result<Vec<u8>> {
-    // Convert the string to a UUID
-    let id = match Uuid::parse_str(&id) {
-        Ok(id) => id,
-        Err(_) => return Err(crate::Error::HidDeviceUuidInvalidFormat),
-    };
-    app.hid().read(id, timeout)
+    app.hid().read(path, timeout)
 }

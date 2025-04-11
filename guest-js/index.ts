@@ -24,7 +24,6 @@ export async function enumerate(): Promise<HidDevice[]> {
 }
 
 export class HidDevice {
-  id: string = '';  // UUID used to match device to the connected device in rust
   path: string = '';
   vendorId: number = 0;
   productId: number = 0;
@@ -32,31 +31,32 @@ export class HidDevice {
   releaseNumber: number = 0;
   manufacturerString: string = '';
   productString: string = '';
+  isOpen: boolean = false;
 
-  // TODO: consider using path first then vid/pid
   async open(): Promise<void> {
-    this.id = await invoke('plugin:hid|open', {
-      vendorId: this.vendorId,
-      productId: this.productId,
+    await invoke('plugin:hid|open', {
+      path: this.path,
     });
+    this.isOpen = true;
   }
 
   async close(): Promise<void> {
-    return await invoke('plugin:hid|close', {
-      id: this.id,
+    this.isOpen = false;
+    await invoke('plugin:hid|close', {
+      path: this.path,
     });
   }
 
   async read(timeout: number = 0): Promise<ArrayBuffer> {
     return await invoke('plugin:hid|read', {
-      id: this.id,
+      path: this.path,
       timeout: timeout
     });
   }
 
   async write(data: ArrayBuffer): Promise<void> {
-    return await invoke('plugin:hid|write', {
-      id: this.id,
+    await invoke('plugin:hid|write', {
+      path: this.path,
       data,
     });
   }

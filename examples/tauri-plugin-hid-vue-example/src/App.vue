@@ -15,7 +15,7 @@ async function chooseDevice() {
 
 async function connect(device: HidDevice) {
   await device.open();
-  if (device.id) {  // TODO: impletment a way to check if the device is already connected and use instead
+  if (device.isOpen) {
     connectedDevices.value.push(device);
   }
   choosingDevice.value = false;
