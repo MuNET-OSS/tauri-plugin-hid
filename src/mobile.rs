@@ -25,10 +25,33 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
 pub struct Hid<R: Runtime>(PluginHandle<R>);
 
 impl<R: Runtime> Hid<R> {
-  pub fn ping(&self, payload: PingRequest) -> crate::Result<PingResponse> {
+  // pub fn ping(&self, payload: PingRequest) -> crate::Result<PingResponse> {
+  //   self
+  //     .0
+  //     .run_mobile_plugin("ping", payload)
+  //     .map_err(Into::into)
+  // }
+
+  pub fn enumerate(&self) -> crate::Result<Vec<HidDeviceInfo>> {
     self
       .0
-      .run_mobile_plugin("ping", payload)
+      .run_mobile_plugin("enumerate", ())
       .map_err(Into::into)
+  }
+  
+  pub fn open(&self, path: &str) -> crate::Result<()> {
+    Err(crate::Error::HidDeviceNotFound)
+  }
+
+  pub fn close(&self, path: &str) -> crate::Result<()> {
+    Err(crate::Error::HidDeviceNotFound)
+  }
+
+  pub fn write(&self, path: &str, data: &[u8]) -> crate::Result<()> {
+    Err(crate::Error::HidDeviceNotFound)
+  }
+
+  pub fn read(&self, path: &str, timeout: i32) -> crate::Result<Vec<u8>> {
+    Err(crate::Error::HidDeviceNotFound)
   }
 }
