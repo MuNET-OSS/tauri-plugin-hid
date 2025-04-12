@@ -5,8 +5,6 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
   #[error(transparent)]
   Io(#[from] std::io::Error),
-  #[error("HidApi Error: {0}")]
-  HidApiError(#[from] hidapi::HidError),
   #[error("Device not found")]
   HidDeviceNotFound,
   #[error("Device already open")]
@@ -17,6 +15,9 @@ pub enum Error {
   HidDeviceUuidInvalidFormat,
   #[error("HID read timed out")]
   HidReadTimeout,
+  #[cfg(desktop)]
+  #[error("HidApi Error: {0}")]
+  HidApiError(#[from] hidapi::HidError),
   #[cfg(mobile)]
   #[error(transparent)]
   PluginInvoke(#[from] tauri::plugin::mobile::PluginInvokeError),
