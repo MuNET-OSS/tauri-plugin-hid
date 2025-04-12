@@ -11,3 +11,9 @@ pub struct HidDeviceInfo {
   pub manufacturer_string: Option<String>,
   pub product_string: Option<String>,
 }
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct EnumerateResponse {
+  pub devices: Vec<HidDeviceInfo>,
+}

@@ -43,13 +43,13 @@ class ExamplePlugin(private val activity: Activity): Plugin(activity) {
 
         for (dev in deviceList.values) {
             val device = JSObject()
-            device.put("path", dev.deviceName)
-            device.put("vendorId", dev.vendorId)
-            device.put("productId", dev.productId)
-            device.put("serialNumber", dev.serialNumber)
             device.put("releaseNumber", 0)
-            device.put("manufacturerString", dev.manufacturerName)
-            device.put("productString", dev.productName)
+             device.put("path", dev.deviceName)
+             device.put("vendorId", dev.vendorId)
+             device.put("productId", dev.productId)
+//             device.put("serialNumber", dev.serialNumber)
+             device.put("manufacturerString", dev.manufacturerName)
+             device.put("productString", dev.productName)
             devices.put(device)
         }
 

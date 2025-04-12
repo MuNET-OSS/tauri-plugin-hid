@@ -15,7 +15,7 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
   api: PluginApi<R, C>,
 ) -> crate::Result<Hid<R>> {
   #[cfg(target_os = "android")]
-  let handle = api.register_android_plugin("", "ExamplePlugin")?;
+  let handle = api.register_android_plugin("uk.redfern.tauri.plugin.hid", "ExamplePlugin")?;
   #[cfg(target_os = "ios")]
   let handle = api.register_ios_plugin(init_plugin_hid)?;
   Ok(Hid(handle))
@@ -33,10 +33,8 @@ impl<R: Runtime> Hid<R> {
   // }
 
   pub fn enumerate(&self) -> crate::Result<Vec<HidDeviceInfo>> {
-    self
-      .0
-      .run_mobile_plugin("enumerate", ())
-      .map_err(Into::into)
+    let response: EnumerateResponse = self.0.run_mobile_plugin("enumerate", ())?;
+    Ok(response.devices)
   }
   
   pub fn open(&self, path: &str) -> crate::Result<()> {
