@@ -16,6 +16,7 @@ homepage = "https://github.com/RedfernElec/tauri-plugin-hid"
 tauri = { version = "2.4.0" }
 serde = "1.0"
 thiserror = "2"
+[target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies]
 hidapi = "2.6.3"
 
 [build-dependencies]
