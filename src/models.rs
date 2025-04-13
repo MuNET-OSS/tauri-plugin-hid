@@ -17,3 +17,29 @@ pub struct HidDeviceInfo {
 pub struct EnumerateResponse {
   pub devices: Vec<HidDeviceInfo>,
 }
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OpenRequest {
+  pub path: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReadRequest {
+  pub path: String,
+  pub timeout: i32,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReadResponse {
+  pub data: Vec<u8>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WriteRequest {
+  pub path: String,
+  pub data: Vec<u8>,
+}
