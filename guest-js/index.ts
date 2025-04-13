@@ -13,7 +13,7 @@ type HidDeviceInfo = {
 };
 
 export async function enumerate(): Promise<HidDevice[]> {
-  const infoList = await invoke('plugin:hid|enumerate', {});
+  const infoList = await invoke<HidDevice[]>('plugin:hid|enumerate', {});
   const devices: HidDevice[] = [];
   for (const info of infoList as HidDeviceInfo[]) {
     const device = new HidDevice();
@@ -34,7 +34,7 @@ export class HidDevice {
   isOpen: boolean = false;
 
   async open(): Promise<void> {
-    await invoke('plugin:hid|open', {
+    await invoke<void>('plugin:hid|open', {
       path: this.path,
     });
     this.isOpen = true;
@@ -42,20 +42,20 @@ export class HidDevice {
 
   async close(): Promise<void> {
     this.isOpen = false;
-    await invoke('plugin:hid|close', {
+    await invoke<void>('plugin:hid|close', {
       path: this.path,
     });
   }
 
   async read(timeout: number = 0): Promise<ArrayBuffer> {
-    return await invoke('plugin:hid|read', {
+    return await invoke<ArrayBuffer>('plugin:hid|read', {
       path: this.path,
       timeout: timeout
     });
   }
 
   async write(data: ArrayBuffer): Promise<void> {
-    await invoke('plugin:hid|write', {
+    await invoke<void>('plugin:hid|write', {
       path: this.path,
       data,
     });
