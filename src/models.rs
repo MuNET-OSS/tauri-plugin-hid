@@ -14,32 +14,38 @@ pub struct HidDeviceInfo {
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct EnumerateResponse {
+pub struct EnumerateResult {
   pub devices: Vec<HidDeviceInfo>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct OpenRequest {
+pub struct OpenArgs {
   pub path: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ReadRequest {
+pub struct CloseArgs {
+  pub path: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReadArgs {
   pub path: String,
   pub timeout: i32,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ReadResponse {
+pub struct ReadResult {
   pub data: Vec<u8>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct WriteRequest {
+pub struct WriteArgs {
   pub path: String,
   pub data: Vec<u8>,
 }

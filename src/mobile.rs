@@ -6,6 +6,8 @@ use tauri::{
 
 use crate::models::*;
 
+use crate::error::Error;
+
 #[cfg(target_os = "ios")]
 tauri::ios_plugin_binding!(init_plugin_hid);
 
@@ -33,26 +35,58 @@ impl<R: Runtime> Hid<R> {
     // }
 
     pub fn enumerate(&self) -> crate::Result<Vec<HidDeviceInfo>> {
-        let response: EnumerateResponse = self
+        let result = self
             .0
-            .run_mobile_plugin("enumerate", ())
-            .map_err(Into::into)?;
-        Ok(response.devices)
+            .run_mobile_plugin::<EnumerateResult>("enumerate", ())
+            .map_err(Error::PluginInvoke)?;
+        Ok(result.devices)
     }
 
     pub fn open(&self, path: &str) -> crate::Result<()> {
-        Err(crate::Error::HidDeviceNotFound)
+        self.0
+            .run_mobile_plugin(
+                "open",
+                OpenArgs {
+                    path: path.to_string(),
+                },
+            )
+            .map_err(Error::PluginInvoke)
     }
 
     pub fn close(&self, path: &str) -> crate::Result<()> {
-        Err(crate::Error::HidDeviceNotFound)
-    }
-
-    pub fn write(&self, path: &str, data: &[u8]) -> crate::Result<()> {
-        Err(crate::Error::HidDeviceNotFound)
+        self.0
+            .run_mobile_plugin(
+                "open",
+                CloseArgs {
+                    path: path.to_string(),
+                },
+            )
+            .map_err(Error::PluginInvoke)
     }
 
     pub fn read(&self, path: &str, timeout: i32) -> crate::Result<Vec<u8>> {
-        Err(crate::Error::HidDeviceNotFound)
+        let result = self
+            .0
+            .run_mobile_plugin::<ReadResult>(
+                "read",
+                ReadArgs {
+                    path: path.to_string(),
+                    timeout,
+                },
+            )
+            .map_err(Error::PluginInvoke)?;
+        Ok(result.data)
+    }
+
+    pub fn write(&self, path: &str, data: &[u8]) -> crate::Result<()> {
+        self.0
+            .run_mobile_plugin(
+                "write",
+                WriteArgs {
+                    path: path.to_string(),
+                    data: data.to_vec(),
+                },
+            )
+            .map_err(Error::PluginInvoke)
     }
 }
