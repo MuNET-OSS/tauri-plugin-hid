@@ -2,8 +2,9 @@
 
 Tauri plugin to provide access to USB HID devices.
 
-Currently uses hidapi-rusb as it is able to compile hidapi on Android as part of a Tauri project without errors.
-(Android not implemented yet).
+Uses hidapi-rs on MacOS, Windows and Linux.
+
+Uses Android UsbManager on Android.
 
 ⚠️ **Warning: Work in Progress** ⚠️
 
@@ -15,9 +16,8 @@ Currently uses hidapi-rusb as it is able to compile hidapi on Android as part of
 
 **Limitations:**
 
-*   Does not enumerate devices on Android yet
 *   Feature reports not supported yet
-*   Currently only tested on macOS
+*   Currently only tested on macOS, Windows and Android.
 
 ## Installation
 
