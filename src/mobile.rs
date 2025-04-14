@@ -17,7 +17,7 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
     api: PluginApi<R, C>,
 ) -> crate::Result<Hid<R>> {
     #[cfg(target_os = "android")]
-    let handle = api.register_android_plugin("uk.redfern.tauri.plugin.hid", "ExamplePlugin")?;
+    let handle = api.register_android_plugin("uk.redfern.tauri.plugin.hid", "HidPlugin")?;
     #[cfg(target_os = "ios")]
     let handle = api.register_ios_plugin(init_plugin_hid)?;
     Ok(Hid(handle))
@@ -56,7 +56,7 @@ impl<R: Runtime> Hid<R> {
     pub fn close(&self, path: &str) -> crate::Result<()> {
         self.0
             .run_mobile_plugin(
-                "open",
+                "close",
                 CloseArgs {
                     path: path.to_string(),
                 },
@@ -75,16 +75,28 @@ impl<R: Runtime> Hid<R> {
                 },
             )
             .map_err(Error::PluginInvoke)?;
-        Ok(result.data)
+        // Convert signed bytes to unsigned bytes for Android
+        let data: Vec<u8> = result
+            .data
+            .iter()
+            .map(|&byte| byte as u8)
+            .collect();
+        Ok(data)
     }
 
     pub fn write(&self, path: &str, data: &[u8]) -> crate::Result<()> {
+        // Convert unsigned bytes to signed bytes for Android
+        let data: Vec<i8> = data
+            .iter()
+            .map(|&byte| byte as i8)
+            .collect();
+
         self.0
             .run_mobile_plugin(
                 "write",
                 WriteArgs {
                     path: path.to_string(),
-                    data: data.to_vec(),
+                    data: data,
                 },
             )
             .map_err(Error::PluginInvoke)

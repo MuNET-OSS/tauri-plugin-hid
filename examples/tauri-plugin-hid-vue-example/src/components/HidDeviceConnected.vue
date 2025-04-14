@@ -23,20 +23,28 @@ async function write() {
   const uint8Array = new Uint8Array(numbers);
   // Convert the Uint8Array to an ArrayBuffer
   const arrayBuffer = uint8Array.buffer;
-  await device.write(arrayBuffer);
+  try {
+    await device.write(arrayBuffer);
+  } catch (e) {
+    console.error("Error writing to device", e);
+    read_string.value = "Error writing to device";
+  }
   write_string.value = "";
 }
 
 async function read() {
   const device = props.device;
-
   try {
-    let data = await device.read(100);
-    read_string.value = new Uint8Array(data).join(", ");
-  } catch {
-    read_string.value = 'Read timeout';
+    let data = new Uint8Array(await device.read(100));
+    if (data.length === 0) {
+      read_string.value = "No data available";
+      return;
+    }
+    read_string.value = data.join(", ");
+  } catch (e) {
+    console.error("Error reading from device", e);
+    read_string.value = "Error reading from device";
   }
-
 }
 
 </script>

@@ -48,10 +48,11 @@ export class HidDevice {
   }
 
   async read(timeout: number = 0): Promise<ArrayBuffer> {
-    return await invoke<ArrayBuffer>('plugin:hid|read', {
+    let result = await invoke<ArrayBuffer>('plugin:hid|read', {
       path: this.path,
       timeout: timeout
     });
+    return result
   }
 
   async write(data: ArrayBuffer): Promise<void> {

@@ -138,10 +138,7 @@ impl<R: Runtime> Hid<R> {
     // TODO: Consider closing the device if read fails (to avoid stale device in list).
     let len = device.read_timeout(&mut buffer, timeout)?;
     buffer.truncate(len);
-    if len == 0 && timeout > 0 {
-      Err(Error::HidReadTimeout)
-    } else {
-      Ok(buffer)
-    }
+    // Always return the buffer, even if empty
+    Ok(buffer)
   }
 }

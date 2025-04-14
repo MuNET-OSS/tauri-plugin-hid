@@ -12,6 +12,8 @@ pub struct HidDeviceInfo {
   pub product_string: Option<String>,
 }
 
+// Models for Android HID API
+
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EnumerateResult {
@@ -40,12 +42,12 @@ pub struct ReadArgs {
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ReadResult {
-  pub data: Vec<u8>,
+  pub data: Vec<i8>, // signed byte to match Android
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WriteArgs {
   pub path: String,
-  pub data: Vec<u8>,
+  pub data: Vec<i8>, // signed byte to match Android
 }
