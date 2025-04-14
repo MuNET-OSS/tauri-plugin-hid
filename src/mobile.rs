@@ -84,6 +84,7 @@ impl<R: Runtime> Hid<R> {
         Ok(data)
     }
 
+    // TODO: Strip out the first byte of the data (the report ID) before sending if zero (like HIDAPI)
     pub fn write(&self, path: &str, data: &[u8]) -> crate::Result<()> {
         // Convert unsigned bytes to signed bytes for Android
         let data: Vec<i8> = data
@@ -101,4 +102,7 @@ impl<R: Runtime> Hid<R> {
             )
             .map_err(Error::PluginInvoke)
     }
+
+    // TODO: Implement functions like sendReport and inputReport event to mirror webHID
+    // TODO: Add support for feature reports
 }

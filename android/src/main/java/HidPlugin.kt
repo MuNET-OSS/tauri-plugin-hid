@@ -95,6 +95,9 @@ class HidDevice(
             return HidResult.Error("Cannot read: IN endpoint not available")
         }
         
+        // TODO: Use Control transfer if no IN endpoint found
+        // TODO: Look at using UsbRequest for reading (interrupt transfer)
+        // Use bulk transfer for now
         val buffer = ByteArray(endpoint.maxPacketSize)
         val bytesRead = deviceConnection.bulkTransfer(endpoint, buffer, buffer.size, timeout)
         
@@ -113,6 +116,9 @@ class HidDevice(
             return HidResult.Error("Cannot write: OUT endpoint not available")
         }
         
+        // TODO: Use Control transfer if no OUT endpoint found
+        // TODO: Look at using UsbRequest for reading (interrupt transfer)
+        // Use bulk transfer for now
         val bytesWritten = deviceConnection.bulkTransfer(endpoint, data, data.size, 1000)
         return if (bytesWritten > 0) {
             HidResult.Success(Unit)
