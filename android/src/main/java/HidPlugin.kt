@@ -97,6 +97,7 @@ class HidDevice(
         
         // TODO: Use Control transfer if no IN endpoint found
         // TODO: Look at using UsbRequest for reading (interrupt transfer)
+        // TODO: Check if blocks and use coroutines if needed
         // Use bulk transfer for now
         val buffer = ByteArray(endpoint.maxPacketSize)
         val bytesRead = deviceConnection.bulkTransfer(endpoint, buffer, buffer.size, timeout)
