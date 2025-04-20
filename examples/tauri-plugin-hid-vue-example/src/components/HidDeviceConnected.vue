@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { HidDevice } from "@redfernelec/tauri-plugin-hid-api";
-import { RefSymbol } from "@vue/reactivity";
 import { ref } from "vue";
 
 const props = defineProps<{
