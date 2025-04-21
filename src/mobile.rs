@@ -84,13 +84,14 @@ impl<R: Runtime> Hid<R> {
         Ok(data)
     }
 
-    // TODO: Strip out the first byte of the data (the report ID) before sending if zero (like HIDAPI)
     pub fn write(&self, path: &str, data: &[u8]) -> crate::Result<()> {
         // Convert unsigned bytes to signed bytes for Android
-        let data: Vec<i8> = data
-            .iter()
-            .map(|&byte| byte as i8)
-            .collect();
+        // Strip out the first byte of the data (the report ID) before sending if zero (like HIDAPI)
+        let data: Vec<i8> = if !data.is_empty() && data[0] == 0 {
+            data[1..].iter().map(|&byte| byte as i8).collect()
+        } else {
+            data.iter().map(|&byte| byte as i8).collect()
+        };
 
         self.0
             .run_mobile_plugin(
