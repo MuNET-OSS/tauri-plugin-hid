@@ -64,7 +64,7 @@ impl<R: Runtime> Hid<R> {
             .map_err(Error::PluginInvoke)
     }
 
-    pub fn read(&self, path: &str, timeout: i32) -> crate::Result<Vec<u8>> {
+    pub fn read(&self, path: &str, mut timeout: i32) -> crate::Result<Vec<u8>> {
         // For compatibility with HIDAPI (where -1 means blocking read and 0 means return immediately) 
         if timeout == 0 {
             timeout = 1;    // 1ms is closest to HIDAPI's non-blocking read
