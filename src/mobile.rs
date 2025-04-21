@@ -65,6 +65,13 @@ impl<R: Runtime> Hid<R> {
     }
 
     pub fn read(&self, path: &str, timeout: i32) -> crate::Result<Vec<u8>> {
+        // For compatibility with HIDAPI (where -1 means blocking read and 0 means return immediately) 
+        if timeout == 0 {
+            timeout = 1;    // 1ms is closest to HIDAPI's non-blocking read
+        } else if timeout < 0 {
+            timeout = 0;    // Wait indefinitely
+        }
+
         let result = self
             .0
             .run_mobile_plugin::<ReadResult>(
