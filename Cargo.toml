@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-hid"
-version = "0.2.1"
+version = "0.2.2"
 authors = [ "Joseph Birks" ]
 description = "A Tauri plugin to provide access to USB HID devices"
 license = "MIT"
@@ -17,7 +17,7 @@ tauri = { version = "2.4.0" }
 serde = "1.0"
 thiserror = "2"
 [target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies]
-hidapi = { version="2.6.3", default-features = false, features = ["linux-shared-hidraw"] }
+hidapi = { version="2.6.3", default-features = false, features = ["linux-static-hidraw"] }
 
 [build-dependencies]
 tauri-plugin = { version = "2.1.0", features = ["build"] }
