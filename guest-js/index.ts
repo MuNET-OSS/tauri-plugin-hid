@@ -164,10 +164,11 @@ export class HidDevice {
     });
   }
 
-  async getInputReport(length: number = 65): Promise<number[]> {
+  async getInputReport(reportId: number, length: number = 65): Promise<number[]> {
     let result = await invoke<number[]>('plugin:hid|get_input_report', {
       path: this.path,
-      length
+      length,
+      reportId
     });
     return result
   }

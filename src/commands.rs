@@ -58,7 +58,8 @@ pub(crate) async fn send_output_report<R: Runtime>(
 pub(crate) async fn get_input_report<R: Runtime>(
     app: AppHandle<R>,
     path: &str,
-    length: usize
+    length: usize,
+    report_id: u8
 ) -> Result<Vec<u8>> {
-    app.hid().get_input_report(path, length)
+    app.hid().get_input_report(path, length, report_id)
 }
