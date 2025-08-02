@@ -44,3 +44,21 @@ pub(crate) async fn read<R: Runtime>(
 ) -> Result<Vec<u8>> {
     app.hid().read(path, timeout)
 }
+
+#[command]
+pub(crate) async fn send_output_report<R: Runtime>(
+    app: AppHandle<R>,
+    path: &str,
+    data: Vec<u8>,
+) -> Result<()> {
+    app.hid().send_output_report(path, data.as_slice())
+}
+
+#[command]
+pub(crate) async fn get_input_report<R: Runtime>(
+    app: AppHandle<R>,
+    path: &str,
+    length: usize
+) -> Result<Vec<u8>> {
+    app.hid().get_input_report(path, length)
+}

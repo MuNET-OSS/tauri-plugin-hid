@@ -319,6 +319,18 @@
           "markdownDescription": "Denies the enumerate command without any pre-configured scope."
         },
         {
+          "description": "Enables the get_input_report command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-get-input-report",
+          "markdownDescription": "Enables the get_input_report command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the get_input_report command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-get-input-report",
+          "markdownDescription": "Denies the get_input_report command without any pre-configured scope."
+        },
+        {
           "description": "Enables the open command without any pre-configured scope.",
           "type": "string",
           "const": "allow-open",
@@ -343,6 +355,18 @@
           "markdownDescription": "Denies the read command without any pre-configured scope."
         },
         {
+          "description": "Enables the send_output_report command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-send-output-report",
+          "markdownDescription": "Enables the send_output_report command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the send_output_report command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-send-output-report",
+          "markdownDescription": "Denies the send_output_report command without any pre-configured scope."
+        },
+        {
           "description": "Enables the write command without any pre-configured scope.",
           "type": "string",
           "const": "allow-write",
@@ -355,10 +379,10 @@
           "markdownDescription": "Denies the write command without any pre-configured scope."
         },
         {
-          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-enumerate`\n- `allow-open`\n- `allow-close`\n- `allow-write`\n- `allow-read`",
+          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-enumerate`\n- `allow-open`\n- `allow-close`\n- `allow-write`\n- `allow-read`\n- `allow-send-output-report`\n- `allow-get-input-report`",
           "type": "string",
           "const": "default",
-          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-enumerate`\n- `allow-open`\n- `allow-close`\n- `allow-write`\n- `allow-read`"
+          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-enumerate`\n- `allow-open`\n- `allow-close`\n- `allow-write`\n- `allow-read`\n- `allow-send-output-report`\n- `allow-get-input-report`"
         }
       ]
     }

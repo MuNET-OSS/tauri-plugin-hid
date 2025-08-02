@@ -122,7 +122,7 @@ export class HidDevice {
    * Reads data from the HID device.
    * 
    * @param timeout - Read timeout in milliseconds (-1 = no timeout i.e. wait indefinitely).
-   * @returns Promise resolving to an ArrayBuffer containing the read data. If the timeout is reached, the promise will resolve with an empty buffer.
+   * @returns Promise resolving to an ArrayBuffer containing the read data. If the timeout is reached, the promise will resolve with an empty buffer. (No, it's number[])
    * @throws Will throw an error if reading fails but not if the timeout is reached.
    * @example
    * ```typescript
@@ -131,8 +131,8 @@ export class HidDevice {
    * console.log("Received data:", Array.from(view));
    * ```
    */
-  async read(timeout: number = 0): Promise<ArrayBuffer> {
-    let result = await invoke<ArrayBuffer>('plugin:hid|read', {
+  async read(timeout: number = 0): Promise<number[]> {
+    let result = await invoke<number[]>('plugin:hid|read', {
       path: this.path,
       timeout: timeout
     });
@@ -157,8 +157,23 @@ export class HidDevice {
    * For example: `new Uint8Array([0x00, 0x01, 0x02, 0x03])`
    * The implementation will automatically strip this leading zero for compatibility with the HID API.
    */
-  async write(data: ArrayBuffer): Promise<void> {
+  async write(data: number[]): Promise<void> {
     await invoke<void>('plugin:hid|write', {
+      path: this.path,
+      data,
+    });
+  }
+
+  async getInputReport(length: number = 65): Promise<number[]> {
+    let result = await invoke<number[]>('plugin:hid|get_input_report', {
+      path: this.path,
+      length
+    });
+    return result
+  }
+
+  async sendOutputReport(data: number[]): Promise<void> {
+    await invoke<void>('plugin:hid|send_output_report', {
       path: this.path,
       data,
     });

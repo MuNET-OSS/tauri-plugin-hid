@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-send-output-report"
+description = "Enables the send_output_report command without any pre-configured scope."
+commands.allow = ["send_output_report"]
+
+[[permission]]
+identifier = "deny-send-output-report"
+description = "Denies the send_output_report command without any pre-configured scope."
+commands.deny = ["send_output_report"]

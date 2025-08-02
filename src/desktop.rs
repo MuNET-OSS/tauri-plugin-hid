@@ -138,4 +138,40 @@ impl<R: Runtime> Hid<R> {
         // Always return the buffer, even if empty
         Ok(buffer)
     }
+
+    pub fn send_output_report(&self, path: &str, data: &[u8]) -> crate::Result<()> {
+        // Get a lock on the open_devices mutex to ensure thread safety.
+        // This will panic if the mutex is poisoned, which should not happen in normal operation.
+        let open_devices = self.open_devices.lock().unwrap();
+        // Get device from the open_devices HashMap using the UUID as the key.
+        // If the device is not found, return an error.
+        let device = match open_devices.get(path) {
+            Some(device) => device,
+            None => return Err(crate::Error::HidDeviceNotFoundInOpenDevices),
+        };
+        // Write data to the device.
+        // TODO: Consider closing the device if write fails (to avoid stale device in list).
+        device.send_output_report(data)?;
+        Ok(())
+    }
+
+    pub fn get_input_report(&self, path: &str, length: usize) -> crate::Result<Vec<u8>> {
+        // Get a lock on the open_devices mutex to ensure thread safety.
+        // This will panic if the mutex is poisoned, which should not happen in normal operation.
+        let open_devices = self.open_devices.lock().unwrap();
+        // Get device from the open_devices HashMap using the UUID as the key.
+        // If the device is not found, return an error.
+        let device = match open_devices.get(path) {
+            Some(device) => device,
+            None => return Err(crate::Error::HidDeviceNotFoundInOpenDevices),
+        };
+        let mut buffer = vec![0; length];
+        // Read data from the device into the buffer.
+        // The read method will block until data is available or an error occurs.
+        // TODO: Consider closing the device if read fails (to avoid stale device in list).
+        let len = device.get_input_report(&mut buffer)?;
+        buffer.truncate(len);
+        // Always return the buffer, even if empty
+        Ok(buffer)
+    }
 }
